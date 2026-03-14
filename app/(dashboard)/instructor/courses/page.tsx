@@ -1,3 +1,7 @@
-export default function InstructorCoursesPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Instructor courses module placeholder.</div>
+import { CoursesGrid } from "@/components/instructor/courses-grid"
+import { getInstructorCoursesData } from "@/lib/instructor/data"
+
+export default async function InstructorCoursesPage() {
+  const data = await getInstructorCoursesData()
+  return <CoursesGrid courses={data.courses} />
 }

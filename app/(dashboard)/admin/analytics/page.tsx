@@ -1,3 +1,12 @@
+import { ModulePlaceholder } from "@/components/shared/module-placeholder"
+
 export default function AdminAnalyticsPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Admin analytics module placeholder.</div>
+  return (
+    <ModulePlaceholder
+      backHref="/admin"
+      eyebrow="Admin"
+      title="Analytics"
+      description="Track engagement, completion, and organization-level performance with role-aware reporting."
+    />
+  )
 }

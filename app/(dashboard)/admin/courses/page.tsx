@@ -1,3 +1,12 @@
+import { ModulePlaceholder } from "@/components/shared/module-placeholder"
+
 export default function AdminCoursesPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Admin courses module placeholder.</div>
+  return (
+    <ModulePlaceholder
+      backHref="/admin"
+      eyebrow="Admin"
+      title="Course governance"
+      description="Review publishing state, instructor ownership, and content readiness across your catalog."
+    />
+  )
 }

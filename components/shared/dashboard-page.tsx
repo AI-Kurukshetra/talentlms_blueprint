@@ -1,7 +1,9 @@
 import type { Route } from "next"
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
-import { PlaceholderCard } from "@/components/shared/placeholder-card"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export type DashboardSection = {
   title: string
@@ -18,26 +20,35 @@ type DashboardPageProps = {
 export function DashboardPage({ role, summary, sections }: DashboardPageProps) {
   return (
     <section className="space-y-6">
-      <header className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-[0_18px_60px_rgba(16,34,61,0.08)] backdrop-blur">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700">{role}</p>
-        <h1 className="mt-3 text-3xl font-semibold text-slate-950">{role} dashboard</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{summary}</p>
+      <header className="glass-panel animate-in fade-in slide-in-from-top-6 rounded-[30px] px-6 py-6 sm:px-8">
+        <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary">{role}</p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{role} dashboard</h1>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
+          {summary}
+        </p>
       </header>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {sections.map((section) => (
-          <PlaceholderCard
+          <Card
             key={section.href}
-            eyebrow={role}
-            title={section.title}
-            description={section.description}
+            className="glass-panel animate-in fade-in slide-in-from-bottom-8 rounded-[28px] border-white/10 bg-white/[0.04]"
           >
-            <Link
-              href={section.href}
-              className="inline-flex rounded-full border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700 transition hover:border-brand-300 hover:bg-brand-50"
-            >
-              Open module
-            </Link>
-          </PlaceholderCard>
+            <CardHeader className="space-y-3">
+              <p className="text-xs font-medium uppercase tracking-[0.22em] text-primary">{role}</p>
+              <CardTitle className="text-2xl tracking-tight">{section.title}</CardTitle>
+              <CardDescription className="text-sm leading-7 text-muted-foreground">
+                {section.description}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button asChild variant="outline" className="rounded-full">
+                <Link href={section.href}>
+                  Open module
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </section>

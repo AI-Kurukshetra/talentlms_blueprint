@@ -1,3 +1,7 @@
-export default function AdminUsersPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Admin users module placeholder.</div>
+import { UsersManagement } from "@/components/admin/users-management"
+import { getAdminUsersData } from "@/lib/admin/data"
+
+export default async function AdminUsersPage() {
+  const data = await getAdminUsersData()
+  return <UsersManagement users={data.users} groups={data.groups} />
 }

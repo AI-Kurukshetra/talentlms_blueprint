@@ -1,3 +1,7 @@
-export default function AdminSettingsPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Admin settings module placeholder.</div>
+import { SettingsForm } from "@/components/admin/settings-form"
+import { getAdminSettingsData } from "@/lib/admin/data"
+
+export default async function AdminSettingsPage() {
+  const data = await getAdminSettingsData()
+  return <SettingsForm settings={data.settings} />
 }

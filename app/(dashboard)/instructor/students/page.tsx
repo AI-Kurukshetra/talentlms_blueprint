@@ -1,3 +1,8 @@
-export default function InstructorStudentsPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Instructor students module placeholder.</div>
+import { StudentsTable } from "@/components/instructor/students-table"
+import { getInstructorStudentsData } from "@/lib/instructor/data"
+
+export default async function InstructorStudentsPage() {
+  const data = await getInstructorStudentsData()
+
+  return <StudentsTable data={data} />
 }

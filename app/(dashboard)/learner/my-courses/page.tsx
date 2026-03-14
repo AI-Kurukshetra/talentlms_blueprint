@@ -1,3 +1,8 @@
-export default function LearnerCoursesPage() {
-  return <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Learner course library placeholder.</div>
+import { MyCoursesGrid } from "@/components/learner/my-courses-grid"
+import { getLearnerMyCoursesData } from "@/lib/learner/data"
+
+export default async function LearnerCoursesPage() {
+  const data = await getLearnerMyCoursesData()
+
+  return <MyCoursesGrid courses={data.courses} />
 }

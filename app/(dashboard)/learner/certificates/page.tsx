@@ -1,5 +1,8 @@
-export default function LearnerCertificatesPage() {
-  return (
-    <div className="rounded-3xl bg-white/85 p-6 shadow-sm">Learner certificates module placeholder.</div>
-  )
+import { CertificateGrid } from "@/components/learner/certificate-grid"
+import { getLearnerCertificatesData } from "@/lib/learner/data"
+
+export default async function LearnerCertificatesPage() {
+  const data = await getLearnerCertificatesData()
+
+  return <CertificateGrid learnerName={data.viewer.name} certificates={data.certificates} />
 }

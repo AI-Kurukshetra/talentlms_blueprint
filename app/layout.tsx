@@ -1,17 +1,22 @@
 import type { Metadata } from "next"
 import { ReactNode } from "react"
 
+import { Toaster } from "@/components/ui/toaster"
+
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Cloud LMS",
-  description: "A Supabase-powered learning management system built with Next.js 14."
+  title: "CloudLMS",
+  description: "Modern cloud learning management for teams, instructors, and learners."
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }
