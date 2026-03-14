@@ -1,11 +1,13 @@
 "use client"
 
 import type { Route } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { Eye, Plus, Search, Sparkles } from "lucide-react"
 
 import type { InstructorCourseCard } from "@/lib/instructor/data"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -86,69 +88,80 @@ export function CoursesGrid({ courses }: CoursesGridProps) {
         </div>
       </section>
 
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {filteredCourses.map((course) => {
-          const viewHref = `/instructor/courses/${course.id}` as Route
-          const editHref = `/instructor/courses/${course.id}/edit` as Route
+      {filteredCourses.length > 0 ? (
+        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {filteredCourses.map((course) => {
+            const viewHref = `/instructor/courses/${course.id}` as Route
+            const editHref = `/instructor/courses/${course.id}/edit` as Route
 
-          return (
-            <Card key={course.id} className="glass-panel rounded-[30px] border-white/10 bg-white/[0.04]">
-              <CardHeader className="space-y-4">
-                <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/10">
-                  {course.thumbnailUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={course.thumbnailUrl}
-                      alt={course.title}
-                      className="h-44 w-full object-cover transition duration-300 hover:scale-[1.02]"
-                    />
-                  ) : (
-                    <div className="flex h-44 items-center justify-center text-sm text-muted-foreground">
-                      No thumbnail uploaded
-                    </div>
-                  )}
-                </div>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <CardTitle className="truncate text-2xl">{course.title}</CardTitle>
-                    <CardDescription className="mt-2 line-clamp-2 text-sm leading-7 text-muted-foreground">
-                      {course.description || "No description yet."}
-                    </CardDescription>
+            return (
+              <Card key={course.id} className="glass-panel rounded-[30px] border-white/10 bg-white/[0.04]">
+                <CardHeader className="space-y-4">
+                  <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/10">
+                    {course.thumbnailUrl ? (
+                      <Image
+                        src={course.thumbnailUrl}
+                        alt={course.title}
+                        width={960}
+                        height={540}
+                        unoptimized
+                        className="h-44 w-full object-cover transition duration-300 hover:scale-[1.02]"
+                      />
+                    ) : (
+                      <div className="flex h-44 items-center justify-center text-sm text-muted-foreground">
+                        No thumbnail uploaded
+                      </div>
+                    )}
                   </div>
-                  <Badge variant="secondary" className="rounded-full px-3 py-1 capitalize">
-                    {course.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="grid gap-3 text-sm text-muted-foreground">
-                <div className="flex items-center justify-between">
-                  <span>Students</span>
-                  <span className="font-medium text-foreground">{course.studentCount}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Completion rate</span>
-                  <span className="font-medium text-foreground">{formatPercent(course.completionRate)}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Lessons</span>
-                  <span className="font-medium text-foreground">{course.lessonCount}</span>
-                </div>
-              </CardContent>
-              <CardFooter className="gap-3">
-                <Button asChild variant="outline" className="flex-1 rounded-2xl">
-                  <Link href={editHref}>Edit</Link>
-                </Button>
-                <Button asChild className="flex-1 rounded-2xl">
-                  <Link href={viewHref}>
-                    <Eye className="mr-2 h-4 w-4" />
-                    View
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          )
-        })}
-      </section>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <CardTitle className="truncate text-2xl">{course.title}</CardTitle>
+                      <CardDescription className="mt-2 line-clamp-2 text-sm leading-7 text-muted-foreground">
+                        {course.description || "No description yet."}
+                      </CardDescription>
+                    </div>
+                    <Badge variant="secondary" className="rounded-full px-3 py-1 capitalize">
+                      {course.status}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="grid gap-3 text-sm text-muted-foreground">
+                  <div className="flex items-center justify-between">
+                    <span>Students</span>
+                    <span className="font-medium text-foreground">{course.studentCount}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Completion rate</span>
+                    <span className="font-medium text-foreground">{formatPercent(course.completionRate)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Lessons</span>
+                    <span className="font-medium text-foreground">{course.lessonCount}</span>
+                  </div>
+                </CardContent>
+                <CardFooter className="gap-3">
+                  <Button asChild variant="outline" className="flex-1 rounded-2xl">
+                    <Link href={editHref}>Edit</Link>
+                  </Button>
+                  <Button asChild className="flex-1 rounded-2xl">
+                    <Link href={viewHref}>
+                      <Eye className="mr-2 h-4 w-4" />
+                      View
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            )
+          })}
+        </section>
+      ) : (
+        <EmptyState
+          title="No courses found"
+          description="Create your first course or adjust the current filters to bring matching content back into view."
+          ctaLabel="Create your first course"
+          ctaHref="/instructor/courses/new"
+        />
+      )}
     </div>
   )
 }

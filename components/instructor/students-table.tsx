@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { Download, Eye, Search } from "lucide-react"
 
 import type { InstructorStudentsData } from "@/lib/instructor/data"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -199,8 +200,11 @@ export function StudentsTable({ data }: StudentsTableProps) {
                 })
               ) : (
                 <TableRow>
-                  <TableCell colSpan={8} className="text-center text-muted-foreground">
-                    No students match the current filters.
+                  <TableCell colSpan={8} className="py-6">
+                    <EmptyState
+                      title="No students yet"
+                      description="Learners will appear here after they enroll in one of your published courses."
+                    />
                   </TableCell>
                 </TableRow>
               )}

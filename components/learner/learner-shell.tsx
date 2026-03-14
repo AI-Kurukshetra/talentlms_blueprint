@@ -19,7 +19,10 @@ import {
 import { usePathname } from "next/navigation"
 
 import { LogoutButton } from "@/components/shared/logout-button"
+import { MobileLearnerNav } from "@/components/shared/mobile-learner-nav"
 import { NotificationBell } from "@/components/shared/notification-bell"
+import { GlobalSearch } from "@/components/shared/global-search"
+import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -143,6 +146,11 @@ export function LearnerShell({ user, children }: LearnerShellProps) {
               </div>
             </div>
 
+            <div className="flex items-center gap-2">
+              <GlobalSearch />
+              <ThemeToggle />
+            </div>
+
             <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2">
               <NotificationBell />
               <Avatar className="h-10 w-10 ring-1 ring-white/10">
@@ -161,8 +169,9 @@ export function LearnerShell({ user, children }: LearnerShellProps) {
           </div>
         </header>
 
-        <div className="pb-6">{children}</div>
+        <div className="pb-24 lg:pb-6">{children}</div>
       </div>
+      <MobileLearnerNav />
     </div>
   )
 }

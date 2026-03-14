@@ -1,4 +1,5 @@
 import type { Route } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowLeft, BookOpenText, ClipboardList, Users } from "lucide-react"
 
@@ -31,7 +32,7 @@ export default async function InstructorCourseDetailPage({ params }: { params: {
             <div className="overflow-hidden rounded-[24px] border border-white/10 bg-black/10">
               {course.thumbnailUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={course.thumbnailUrl} alt={course.title} className="h-40 w-56 object-cover" />
+                <Image src={course.thumbnailUrl} alt={course.title} width={560} height={400} unoptimized className="h-40 w-56 object-cover" />
               ) : (
                 <div className="flex h-40 w-56 items-center justify-center text-sm text-muted-foreground">
                   No thumbnail

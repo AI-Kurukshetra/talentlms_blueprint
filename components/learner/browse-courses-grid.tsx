@@ -1,12 +1,14 @@
 "use client"
 
 import type { Route } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState, useTransition } from "react"
 import { BookOpenText, Search, Sparkles } from "lucide-react"
 import { loadStripe } from "@stripe/stripe-js"
 
 import type { LearnerBrowseCourse } from "@/lib/learner/data"
+import { EmptyState } from "@/components/shared/empty-state"
 import { useToast } from "@/hooks/use-toast"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -152,8 +154,7 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
                   >
                     <div className="overflow-hidden rounded-t-[28px] border-b border-white/10 bg-black/20">
                       {course.thumbnailUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={course.thumbnailUrl} alt={course.title} className="h-44 w-full object-cover" />
+                        <Image src={course.thumbnailUrl} alt={course.title} width={960} height={540} unoptimized className="h-44 w-full object-cover" />
                       ) : (
                         <div className="flex h-44 items-center justify-center bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.16),transparent_55%)]">
                           <Sparkles className="h-10 w-10 text-primary" />
@@ -204,9 +205,11 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
               })}
             </div>
           ) : (
-            <div className="rounded-[26px] border border-dashed border-white/10 bg-black/10 p-8 text-sm text-muted-foreground">
-              No courses match the current filters.
-            </div>
+            <EmptyState
+              icon={BookOpenText}
+              title="No courses match your filters"
+              description="Try another keyword or category, or come back when more published courses are available."
+            />
           )}
         </CardContent>
       </Card>

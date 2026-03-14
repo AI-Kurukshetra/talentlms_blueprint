@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Bell, CheckCheck } from "lucide-react"
 
 import { createClient } from "@/lib/supabase/client"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -170,9 +171,11 @@ export function NotificationsCenter({ roleLabel }: NotificationsCenterProps) {
               </button>
             ))
           ) : (
-            <div className="rounded-[26px] border border-dashed border-white/10 bg-black/10 p-8 text-sm text-muted-foreground">
-              No notifications to show for the current filter.
-            </div>
+            <EmptyState
+              icon={Bell}
+              title="No notifications yet"
+              description="When reminders, completions, or announcements arrive, they will show up here."
+            />
           )}
         </CardContent>
       </Card>

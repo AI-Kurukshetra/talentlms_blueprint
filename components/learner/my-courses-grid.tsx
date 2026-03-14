@@ -1,11 +1,13 @@
 "use client"
 
 import type { Route } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 import { ArrowRight, Search } from "lucide-react"
 
 import type { LearnerMyCourse } from "@/lib/learner/data"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -92,8 +94,7 @@ export function MyCoursesGrid({ courses }: MyCoursesGridProps) {
                 >
                   <div className="overflow-hidden rounded-t-[28px] border-b border-white/10 bg-black/20">
                     {course.thumbnailUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={course.thumbnailUrl} alt={course.title} className="h-44 w-full object-cover" />
+                      <Image src={course.thumbnailUrl} alt={course.title} width={960} height={540} unoptimized className="h-44 w-full object-cover" />
                     ) : (
                       <div className="flex h-44 items-center justify-center text-sm text-muted-foreground">
                         No thumbnail
@@ -139,9 +140,12 @@ export function MyCoursesGrid({ courses }: MyCoursesGridProps) {
               ))}
             </div>
           ) : (
-            <div className="rounded-[26px] border border-dashed border-white/10 bg-black/10 p-8 text-sm text-muted-foreground">
-              No enrolled courses match the current filters.
-            </div>
+            <EmptyState
+              title="No enrolled courses yet"
+              description="Browse the catalog and enroll in your first course to start building momentum."
+              ctaLabel="Browse courses"
+              ctaHref="/learner/browse"
+            />
           )}
         </CardContent>
       </Card>

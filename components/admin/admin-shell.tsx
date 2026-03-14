@@ -20,6 +20,8 @@ import type { ReactNode } from "react"
 
 import { LogoutButton } from "@/components/shared/logout-button"
 import { NotificationBell } from "@/components/shared/notification-bell"
+import { GlobalSearch } from "@/components/shared/global-search"
+import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -138,6 +140,11 @@ export function AdminShell({ user, children }: AdminShellProps) {
                 <p className="text-sm uppercase tracking-[0.22em] text-primary">Admin</p>
                 <h1 className="text-lg font-semibold tracking-tight">Platform control center</h1>
               </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <GlobalSearch />
+              <ThemeToggle />
             </div>
 
             <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2">

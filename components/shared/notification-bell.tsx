@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation"
 
 import { useToast } from "@/hooks/use-toast"
 import { createClient } from "@/lib/supabase/client"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -204,8 +205,12 @@ export function NotificationBell() {
               </DropdownMenuItem>
             ))
           ) : (
-            <div className="rounded-2xl px-3 py-5 text-sm text-muted-foreground">
-              No notifications yet.
+            <div className="px-2 py-3">
+              <EmptyState
+                icon={Bell}
+                title="No notifications yet"
+                description="Activity updates, certificates, and reminders will show up here."
+              />
             </div>
           )}
         </div>

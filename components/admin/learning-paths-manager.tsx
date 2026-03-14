@@ -1,9 +1,10 @@
 "use client"
 
 import { useMemo, useState, useTransition } from "react"
-import { GripVertical, Pencil, Plus, Trash2 } from "lucide-react"
+import { GripVertical, Pencil, Plus, Route, Trash2 } from "lucide-react"
 
 import { useToast } from "@/hooks/use-toast"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -288,41 +289,51 @@ export function LearningPathsManager({ data }: LearningPathsManagerProps) {
         </div>
       </section>
 
-      <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {data.learningPaths.map((path) => (
-          <Card key={path.id} className="glass-panel rounded-[30px] border-white/10 bg-white/[0.04]">
-            <CardHeader>
-              <CardTitle className="text-2xl tracking-tight">{path.title}</CardTitle>
-              <CardDescription className="text-sm leading-7 text-muted-foreground">
-                {path.description || "No description yet."}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="rounded-[22px] border border-white/10 bg-black/10 p-4 text-sm">
-                <p className="text-muted-foreground">Assigned group</p>
-                <p className="mt-1 font-medium">{path.groupName}</p>
-              </div>
-              <div className="space-y-2">
-                {path.courses.map((course, index) => (
-                  <div key={course.id} className="rounded-[20px] border border-white/10 bg-black/10 p-3 text-sm">
-                    {index + 1}. {course.title}
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-3">
-                <Button variant="outline" className="flex-1 rounded-full" onClick={() => startEdit(path)}>
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Edit
-                </Button>
-                <Button variant="outline" className="flex-1 rounded-full" onClick={() => deletePath(path.id)}>
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </section>
+      {data.learningPaths.length > 0 ? (
+        <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {data.learningPaths.map((path) => (
+            <Card key={path.id} className="glass-panel rounded-[30px] border-white/10 bg-white/[0.04]">
+              <CardHeader>
+                <CardTitle className="text-2xl tracking-tight">{path.title}</CardTitle>
+                <CardDescription className="text-sm leading-7 text-muted-foreground">
+                  {path.description || "No description yet."}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="rounded-[22px] border border-white/10 bg-black/10 p-4 text-sm">
+                  <p className="text-muted-foreground">Assigned group</p>
+                  <p className="mt-1 font-medium">{path.groupName}</p>
+                </div>
+                <div className="space-y-2">
+                  {path.courses.map((course, index) => (
+                    <div key={course.id} className="rounded-[20px] border border-white/10 bg-black/10 p-3 text-sm">
+                      {index + 1}. {course.title}
+                    </div>
+                  ))}
+                </div>
+                <div className="flex gap-3">
+                  <Button variant="outline" className="flex-1 rounded-full" onClick={() => startEdit(path)}>
+                    <Pencil className="mr-2 h-4 w-4" />
+                    Edit
+                  </Button>
+                  <Button variant="outline" className="flex-1 rounded-full" onClick={() => deletePath(path.id)}>
+                    <Trash2 className="mr-2 h-4 w-4" />
+                    Delete
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+      ) : (
+        <EmptyState
+          icon={Route}
+          title="No learning paths yet"
+          description="Create your first sequenced path to guide learners through a structured curriculum."
+          ctaLabel="Create Learning Path"
+          ctaHref="/admin/learning-paths"
+        />
+      )}
     </div>
   )
 }

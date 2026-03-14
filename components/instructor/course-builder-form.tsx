@@ -1,6 +1,7 @@
 "use client"
 
 import type { Route } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState, useTransition } from "react"
 import {
@@ -294,9 +295,12 @@ export function CourseBuilderForm({ mode, initialData }: CourseBuilderFormProps)
                   <div className="mb-4 overflow-hidden rounded-[20px] border border-white/10 bg-black/20">
                     {course.thumbnailUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         src={course.thumbnailUrl}
                         alt="Course thumbnail"
+                        width={960}
+                        height={540}
+                        unoptimized
                         className="h-48 w-full object-cover"
                       />
                     ) : (

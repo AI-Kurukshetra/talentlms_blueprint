@@ -5,7 +5,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Sparkles } from "lucide-react"
 
+import { GlobalSearch } from "@/components/shared/global-search"
 import { LogoutButton } from "@/components/shared/logout-button"
+import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
@@ -68,6 +70,8 @@ export function Navbar({ navigation, user }: NavbarProps) {
         </div>
 
         <div className="flex items-center gap-3 self-start rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 sm:self-auto">
+          <GlobalSearch />
+          <ThemeToggle />
           <Avatar className="h-10 w-10 ring-1 ring-white/10">
             {user.avatarUrl ? <AvatarImage src={user.avatarUrl} alt={user.name} /> : null}
             <AvatarFallback>{initials}</AvatarFallback>

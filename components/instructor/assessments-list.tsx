@@ -6,6 +6,7 @@ import { useMemo, useState } from "react"
 import { BarChart3, Clock3, FileQuestion, Plus, Search } from "lucide-react"
 
 import type { InstructorAssessmentCard, InstructorCourseOption } from "@/lib/assessment/data"
+import { EmptyState } from "@/components/shared/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -168,9 +169,13 @@ export function AssessmentsList({ courses, assessments }: AssessmentsListProps) 
               ))}
             </div>
           ) : (
-            <div className="rounded-[26px] border border-dashed border-white/10 bg-black/10 p-8 text-sm text-muted-foreground">
-              No assessments match the current filters yet.
-            </div>
+            <EmptyState
+              icon={FileQuestion}
+              title="No assessments found"
+              description="Create your first assessment or widen the current filters to see more results."
+              ctaLabel="Create Assessment"
+              ctaHref="/instructor/assessments/new"
+            />
           )}
         </CardContent>
       </Card>

@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useTransition } from "react"
 import { ImagePlus, LoaderCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -78,7 +79,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
                 {logoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={logoUrl} alt="Platform logo" className="h-full w-full rounded-2xl object-cover" />
+                  <Image src={logoUrl} alt="Platform logo" width={240} height={240} unoptimized className="h-full w-full rounded-2xl object-cover" />
                 ) : (
                   <ImagePlus className="h-5 w-5 text-muted-foreground" />
                 )}
