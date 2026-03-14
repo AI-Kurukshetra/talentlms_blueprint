@@ -4,6 +4,7 @@ import type { Route } from "next"
 import Link from "next/link"
 import { useMemo, useState, useTransition } from "react"
 import { BookOpenText, Search, Sparkles } from "lucide-react"
+import { loadStripe } from "@stripe/stripe-js"
 
 import type { LearnerBrowseCourse } from "@/lib/learner/data"
 import { useToast } from "@/hooks/use-toast"
@@ -19,6 +20,8 @@ type BrowseCoursesGridProps = {
   categories: string[]
 }
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "")
+
 function formatPrice(value: number) {
   return value === 0 ? "Free" : `$${value.toFixed(2)}`
 }
@@ -27,7 +30,7 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
   const { toast } = useToast()
   const [query, setQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [pendingCourseId, startTransition] = useTransition()
+  const [isPending, startTransition] = useTransition()
   const [enrolledCourseIds, setEnrolledCourseIds] = useState(
     new Set(courses.filter((course) => course.isEnrolled).map((course) => course.id))
   )
@@ -44,9 +47,9 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
     })
   }, [courses, query, selectedCategory])
 
-  function handleEnroll(courseId: string) {
+  function handleCheckout(courseId: string, price: number) {
     startTransition(async () => {
-      const response = await fetch("/api/learner/enrollments", {
+      const response = await fetch(price === 0 ? "/api/learner/enrollments" : "/api/payments/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -58,9 +61,15 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
       if (!response.ok) {
         toast({
           variant: "destructive",
-          title: "Enrollment failed",
-          description: result.error ?? "Unable to enroll right now."
+          title: price === 0 ? "Enrollment failed" : "Checkout failed",
+          description: result.error ?? "Unable to continue right now."
         })
+        return
+      }
+
+      if (price > 0) {
+        await stripePromise
+        window.location.assign(result.url)
         return
       }
 
@@ -156,9 +165,15 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
                         <Badge variant="secondary" className="rounded-full px-3 py-1">
                           {course.category}
                         </Badge>
-                        <Badge variant="secondary" className="rounded-full px-3 py-1">
-                          {formatPrice(course.price)}
-                        </Badge>
+                        {course.price === 0 ? (
+                          <Badge className="rounded-full border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-emerald-300">
+                            Free
+                          </Badge>
+                        ) : (
+                          <Badge variant="secondary" className="rounded-full px-3 py-1">
+                            {formatPrice(course.price)}
+                          </Badge>
+                        )}
                       </div>
                       <CardTitle className="text-xl tracking-tight">{course.title}</CardTitle>
                       <CardDescription className="text-sm leading-7 text-muted-foreground">
@@ -177,10 +192,10 @@ export function BrowseCoursesGrid({ courses, categories }: BrowseCoursesGridProp
                       ) : (
                         <Button
                           className="w-full rounded-full"
-                          onClick={() => handleEnroll(course.id)}
-                          disabled={pendingCourseId}
+                          onClick={() => handleCheckout(course.id, course.price)}
+                          disabled={isPending}
                         >
-                          Enroll
+                          {course.price === 0 ? "Enroll Now" : "Buy Now"}
                         </Button>
                       )}
                     </CardContent>

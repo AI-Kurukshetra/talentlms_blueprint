@@ -5,11 +5,13 @@ import type { LucideIcon } from "lucide-react"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import {
+  BarChart3,
   BookOpenText,
   FolderKanban,
   LayoutDashboard,
   Menu,
   PlusSquare,
+  ReceiptText,
   Settings,
   Sparkles,
   Users
@@ -35,6 +37,8 @@ const navigation: InstructorNavItem[] = [
   { href: "/instructor/courses", label: "My Courses", icon: FolderKanban },
   { href: "/instructor/courses/new", label: "Create Course", icon: PlusSquare },
   { href: "/instructor/assessments", label: "Assessments", icon: BookOpenText },
+  { href: "/instructor/analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/instructor/revenue", label: "Revenue", icon: ReceiptText },
   { href: "/instructor/students", label: "Students", icon: Users },
   { href: "/instructor/settings", label: "Settings", icon: Settings }
 ]

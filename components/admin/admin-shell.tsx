@@ -8,6 +8,7 @@ import {
   ChartColumnIncreasing,
   LayoutDashboard,
   Menu,
+  Route as RouteIcon,
   Settings,
   Sparkles,
   SquareStack,
@@ -36,6 +37,7 @@ const navigation: AdminNavItem[] = [
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/courses", label: "Courses", icon: SquareStack },
   { href: "/admin/groups", label: "Groups", icon: UsersRound },
+  { href: "/admin/learning-paths", label: "Learning Paths", icon: RouteIcon },
   { href: "/admin/analytics", label: "Analytics", icon: ChartColumnIncreasing },
   { href: "/admin/notifications", label: "Notifications", icon: Bell },
   { href: "/admin/settings", label: "Settings", icon: Settings }
