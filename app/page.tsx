@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import {
+  Award,
   Bot,
   BrainCircuit,
-  Certificate,
   Gauge,
   Github,
   Linkedin,
@@ -33,7 +33,7 @@ const features = [
   { icon: Trophy, title: "Gamification", description: "Drive momentum with points, badges, leaderboards, and behavior-based nudges." },
   { icon: Video, title: "Live Sessions", description: "Blend async content with instructor-led delivery for launch, onboarding, and cohort learning." },
   { icon: Smartphone, title: "Mobile Learning", description: "Give learners a fast, touch-friendly experience across every core workflow." },
-  { icon: Certificate, title: "Certificates", description: "Issue branded completion certificates automatically when learners reach the finish line." }
+  { icon: Award, title: "Certificates", description: "Issue branded completion certificates automatically when learners reach the finish line." }
 ]
 
 const steps = [

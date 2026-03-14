@@ -1,3 +1,4 @@
+import type { Route } from "next"
 import { NextResponse } from "next/server"
 
 import { createAdminClient } from "@/lib/supabase/admin"
@@ -32,6 +33,12 @@ export async function GET(request: Request) {
   const role = profile.role as Role
   const admin = createAdminClient()
   const search = `%${query}%`
+  const courseHrefForRole = (courseId: string): Route =>
+    (role === "learner" ? "/learner/browse" : `/instructor/courses/${courseId}`) as Route
+  const assessmentHrefForRole = (assessmentId: string): Route =>
+    (role === "learner"
+      ? `/learner/assessments/${assessmentId}`
+      : `/instructor/assessments/${assessmentId}/results`) as Route
 
   const [coursesResult, usersResult, assessmentsResult] = await Promise.all([
     role === "learner"
@@ -72,7 +79,7 @@ export async function GET(request: Request) {
       id: course.id,
       title: course.title,
       subtitle: role === "learner" ? "Published course" : "Course",
-      href: (role === "learner" ? `/learner/browse` : `/instructor/courses/${course.id}`) as const
+      href: courseHrefForRole(course.id)
     })),
     users: (usersResult.data ?? []).map((item: { id: string; name: string; email: string; role: string }) => ({
       id: item.id,
@@ -84,9 +91,7 @@ export async function GET(request: Request) {
       id: assessment.id,
       title: assessment.title,
       subtitle: role === "learner" ? "Assessment" : "Assessment builder",
-      href: (role === "learner"
-        ? `/learner/assessments/${assessment.id}`
-        : `/instructor/assessments/${assessment.id}/results`) as const
+      href: assessmentHrefForRole(assessment.id)
     }))
   })
 }
